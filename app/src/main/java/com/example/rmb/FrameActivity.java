@@ -1,15 +1,15 @@
 package com.example.rmb;
 
+import android.app.Fragment;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
-import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 
 public class FrameActivity extends FragmentActivity {
 
@@ -25,12 +25,16 @@ public class FrameActivity extends FragmentActivity {
         setContentView( R.layout.activity_fragment );
 
         mFragments = new Fragment[3];
-        fragmentManager = getSupportFragmentManager();
-        mFragments[0] = fragmentManager.findFragmentById(R.id.fragment_main);
-        mFragments[1] = fragmentManager.findFragmentById(R.id.fragment_func);
-        mFragments[2] = fragmentManager.findFragmentById(R.id.fragment_setting);
+        //fragmentManager = getSupportFragmentManager();
+        fragmentManager = getFragmentManager();
+        mFragments[0] = this.fragmentManager.findFragmentById(R.id.fragment_main);
+        System.out.println("0====="+mFragments[0]+"=======");
+        mFragments[1] = this.fragmentManager.findFragmentById(R.id.fragment_func);
+        System.out.println("1====="+mFragments[1]+"=======");
+        mFragments[2] = this.fragmentManager.findFragmentById(R.id.fragment_setting);
+        System.out.println("2====="+mFragments[2]+"=======");
         fragmentTransaction =
-                fragmentManager.beginTransaction().hide(mFragments[0]).hide(mFragments[1]).hide(mFragments[2]);
+                this.fragmentManager.beginTransaction().hide(mFragments[0]).hide(mFragments[1]).hide(mFragments[2]);
         fragmentTransaction.show(mFragments[0]).commit();
 
         rbtHome = findViewById(R.id.radioHome);
@@ -44,17 +48,19 @@ public class FrameActivity extends FragmentActivity {
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 Log.i("radioGroup", "checkId=" + checkedId);
                 fragmentTransaction =
-                        fragmentManager.beginTransaction().hide(mFragments[0]).hide(mFragments[1]).hide(mFragments[2]);
+                        FrameActivity.this.fragmentManager.beginTransaction().hide(mFragments[0]).hide(mFragments[1]).hide(mFragments[2]);
                 rbtHome.setBackgroundResource( R.drawable.shape2 );
                 rbtFunc.setBackgroundResource( R.drawable.shape2 );
                 rbtSetting.setBackgroundResource( R.drawable.shape2 );
 
                 switch(checkedId){
                     case R.id.radioHome:
+
                         fragmentTransaction.show(mFragments[0]).commit();
                         rbtHome.setBackgroundResource( R.drawable.shape3 );
                         break;
                     case R.id.radioFunc:
+
                         fragmentTransaction.show(mFragments[1]).commit();
                         rbtFunc.setBackgroundResource( R.drawable.shape3 );
                         break;
@@ -76,4 +82,5 @@ public class FrameActivity extends FragmentActivity {
 
         return true;
     }
+
 }
